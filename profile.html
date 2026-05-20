@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>User Profile</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+    }
+
+    .profile-container, .dietary-container {
+      display: block;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      background-color: #f9f9f9;
+      max-width: 500px;
+      width: 90%;
+      margin: 20px auto;
+      text-align: center;
+    }
+
+    .profile-pic {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      margin-bottom: 15px;
+    }
+
+    .profile-info {
+      margin: 20px 0;
+    }
+
+    .profile-info p {
+      margin: 10px 0;
+      font-size: 16px;
+    }
+
+    .profile-info .name {
+      font-size: 24px;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 15px;
+    }
+
+    .nav-buttons {
+      margin-top: 20px;
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .nav-button {
+      padding: 10px 20px;
+      font-size: 14px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .nav-button:hover {
+      background-color: #0056b3;
+    }
+
+    .sign-out-btn {
+      background-color: #dc3545;
+    }
+
+    .sign-out-btn:hover {
+      background-color: #c82333;
+    }
+
+    input[type="text"] {
+      padding: 10px;
+      width: 80%;
+      margin-top: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    #selectedDietary {
+      margin-top: 20px;
+      font-size: 16px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    #dietaryOptions {
+      text-align: left;
+      margin: 0 auto;
+      display: inline-block;
+    }
+
+    #dietaryOptions label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Out &amp; About NYC</h1>
+    <nav>
+      <div class="nav-center">
+        <a href="index.html" class="nav-button">Home</a>
+        <a href="schedule.html" class="nav-button">Schedule</a>
+        <button id="signOutBtn" class="nav-button sign-out-btn">Sign Out</button>
+      </div>
+      <div class="auth-status">
+        <span id="authStatus">Checking login status...</span>
+      </div>
+    </nav>
+  </header>
+
+  <div class="profile-container" id="userProfile" style="margin-top: 60px;">
+    Loading profile...
+  </div>
+
+  <div class="dietary-container">
+    <h3>Dietary Restrictions / Allergies</h3>
+
+    <div id="dietaryOptions">
+      <label><input type="checkbox" value="Vegetarian" /> Vegetarian</label>
+      <label><input type="checkbox" value="Vegan" /> Vegan</label>
+      <label><input type="checkbox" value="Gluten-Free" /> Gluten-Free</label>
+      <label><input type="checkbox" value="Nut Allergy" /> Nut Allergy</label>
+      <label><input type="checkbox" value="Dairy-Free" /> Dairy-Free</label>
+      <label><input type="checkbox" value="Other" id="otherCheckbox" /> Other (Please specify)</label>
+    </div>
+
+    <div id="otherInputContainer" style="display:none;">
+      <input type="text" id="otherDietaryInput" placeholder="Please specify your restriction..." />
+    </div>
+
+    <div id="selectedDietary"></div>
+  </div>
+
+  <div id="updateNameForm" style="display:none; margin-top:20px;">
+    <h3>Set Your Name</h3>
+    <input type="text" id="newFullName" placeholder="Enter your full name" style="padding:8px; width:70%; border-radius:5px; border:1px solid #ccc;" />
+    <button id="saveNameBtn" style="padding:8px 16px; margin-left:10px; border:none; border-radius:5px; background:#007bff; color:white; font-weight:bold; cursor:pointer;">Save</button>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.20.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/9.20.0/firebase-auth.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/9.20.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyC7E2JhuYo_nArVWk3zSJVbRmL0D_RqKHA",
+      authDomain: "outandaboutnyc-d1fc1.firebaseapp.com",
+      projectId: "outandaboutnyc-d1fc1",
+      storageBucket: "outandaboutnyc-d1fc1.appspot.com",
+      messagingSenderId: "258281299106",
+      appId: "1:258281299106:web:8ed88794116fd110f14bfb",
+      measurementId: "G-C8EWDPF9HZ"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    const signOutBtn = document.getElementById("signOutBtn");
+    if (signOutBtn) {
+      signOutBtn.addEventListener("click", async () => {
+        try {
+          await signOut(auth);
+          localStorage.clear();
+          sessionStorage.clear();
+        } catch (error) {
+          alert("Sign-out failed: " + error.message);
+        }
+      });
+    }
+
+    onAuthStateChanged(auth, async (user) => {
+      const profileDiv = document.getElementById("userProfile");
+      const authStatus = document.getElementById("authStatus");
+      const updateNameForm = document.getElementById("updateNameForm");
+      const newFullName = document.getElementById("newFullName");
+      const saveNameBtn = document.getElementById("saveNameBtn");
+
+      if (user) {
+        if (authStatus) {
+          authStatus.textContent = `Signed in as ${user.email}`;
+        }
+        const fullName = user.displayName || "Name not set";
+        let availHTML = '';
+        try {
+          const docRef = doc(db, "availability", user.uid);
+          const docSnap = await getDoc(docRef);
+          if (docSnap.exists()) {
+            const data = docSnap.data();
+            if (!data || !Array.isArray(data.availability)) {
+              availHTML += `<div style='margin-top:30px; text-align:center;'><h3>Your Marked Availabilities</h3><p>Availability data is missing or malformed.</p></div>`;
+            } else if (data.availability.length > 0) {
+              availHTML += `<div style='margin-top:30px; text-align:left; max-width:350px; margin-left:auto; margin-right:auto;'>`;
+              availHTML += `<h3 style='text-align:center;'>Your Marked Availabilities</h3><ul style='list-style:disc inside; padding-left:0;'>`;
+              for (const { day, time } of data.availability) {
+                availHTML += `<li>${day}: ${time}</li>`;
+              }
+              availHTML += `</ul></div>`;
+            } else {
+              availHTML += `<div style='margin-top:30px; text-align:center;'><h3>Your Marked Availabilities</h3><p>You have not marked any availabilities yet.</p></div>`;
+            }
+          } else {
+            availHTML += `<div style='margin-top:30px; text-align:center;'><h3>Your Marked Availabilities</h3><p>No availability document found for your account.</p></div>`;
+          }
+        } catch (error) {
+          availHTML += `<div style='margin-top:30px; text-align:center;'><h3>Your Marked Availabilities</h3><p>Error loading availabilities: ${error.message}</p></div>`;
+          console.error("Error loading availability:", error);
+        }
+        profileDiv.innerHTML = `
+          <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" class="profile-pic" />
+          <div class="profile-info">
+            <div class="name">${fullName}</div>
+            <p><strong>Email:</strong> ${user.email}</p>
+          </div>
+          ${availHTML}
+        `;
+        if (!user.displayName || user.displayName === "Name not set") {
+          updateNameForm.style.display = "block";
+        } else {
+          updateNameForm.style.display = "none";
+        }
+        saveNameBtn.onclick = async () => {
+          if (!newFullName.value.trim()) {
+            alert("Please enter your full name.");
+            return;
+          }
+          try {
+            await updateProfile(user, { displayName: newFullName.value.trim() });
+            alert("Name updated! Reloading...");
+            window.location.reload();
+          } catch (err) {
+            alert("Failed to update name: " + err.message);
+          }
+        };
+      } else {
+        profileDiv.innerHTML = "<p>You are not signed in.</p>";
+        if (authStatus) {
+          authStatus.textContent = "Not signed in";
+        }
+        window.location.replace("index.html");
+      }
+    });
+
+    // Dietary selection logic (with checkboxes)
+    const dietaryOptions = document.getElementById('dietaryOptions');
+    const selectedDietary = document.getElementById('selectedDietary');
+    const otherInputContainer = document.getElementById('otherInputContainer');
+    const otherDietaryInput = document.getElementById('otherDietaryInput');
+
+    dietaryOptions.addEventListener('change', () => {
+      const selected = Array.from(dietaryOptions.querySelectorAll('input[type="checkbox"]:checked'))
+        .map(input => input.value);
+
+      if (selected.includes('Other')) {
+        otherInputContainer.style.display = 'block';
+      } else {
+        otherInputContainer.style.display = 'none';
+      }
+
+      updateSelectedDietary(selected);
+    });
+
+    otherDietaryInput.addEventListener('input', () => {
+      const selected = Array.from(dietaryOptions.querySelectorAll('input[type="checkbox"]:checked'))
+        .map(input => input.value)
+        .filter(value => value !== 'Other');
+
+      if (otherDietaryInput.value.trim()) {
+        selected.push(otherDietaryInput.value.trim());
+      }
+
+      updateSelectedDietary(selected);
+    });
+
+    function updateSelectedDietary(selected) {
+      if (selected.length > 0) {
+        selectedDietary.textContent = `Selected Restrictions: ${selected.join(', ')}`;
+      } else {
+        selectedDietary.textContent = '';
+      }
+    }
+  </script>
+</body>
+</html>

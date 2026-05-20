@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Schedule Creation Page</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <h1>Out &amp; About NYC</h1>
+    <nav>
+      <div class="nav-center">
+        <a href="index.html" class="nav-button">Home</a>
+        <a href="profile.html" class="nav-button">Profile</a>
+        <button id="signOutBtn" class="nav-button sign-out-btn">Sign Out</button>
+      </div>
+      <div class="auth-status">
+        <span id="authStatus">Checking login status...</span>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <div class="schedule-container">
+      <h1>How Much Time is on Your Hands?</h1>
+
+      <!-- Interval Selector -->
+      <div style="margin-bottom: 20px;">
+        <label for="intervalSelect" style="font-weight: 600;">Choose Time Interval:</label>
+        <select id="intervalSelect">
+          <option value="hourly" selected>Hourly</option>
+          <option value="half-hourly">Every 30 Minutes</option>
+        </select>
+      </div>
+
+      <div class="schedule-grid" id="scheduleGrid">
+        <div class="header-row">
+          <div class="time-header">Time</div>
+          <div class="day-header">Sunday</div>
+          <div class="day-header">Monday</div>
+          <div class="day-header">Tuesday</div>
+          <div class="day-header">Wednesday</div>
+          <div class="day-header">Thursday</div>
+          <div class="day-header">Friday</div>
+          <div class="day-header">Saturday</div>
+        </div>
+        <!-- Time rows will be inserted here -->
+      </div>
+
+      <button id="submitBtn" class="mark-button">Mark Off Your Availabilities</button>
+    </div>
+  </main>
+
+  <!-- Load Firebase logic -->
+  <script type="module" src="script.js"></script>
+</body>
+</html>

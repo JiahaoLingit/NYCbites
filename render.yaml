@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: nycbites-api
+    runtime: node
+    buildCommand: npm install
+    startCommand: npx tsx --env-file=.env server/server.ts
+    envVars:
+      - key: NODE_VERSION
+        value: 20
+      - key: GOOGLE_APPLICATION_CREDENTIALS
+        value: ./serviceAccountKey.json
+      - key: NEXT_PUBLIC_GOOGLE_PLACES_API_KEY
+        sync: false
+      - key: NEXT_PUBLIC_GOOGLE_MAPS_API_KEY
+        sync: false
+      - key: FRONTEND_URL
+        sync: false
