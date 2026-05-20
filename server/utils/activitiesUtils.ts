@@ -209,7 +209,7 @@ export async function getCurrentActivitySlot(userID: string, db: Firestore){
         const currentTimeNormalized = getNormalizedTime(currentDate.getDay(), currentDate.getHours(), currentDate.getMinutes());
         
         const activitySlots = userDoc.data()?.activity_slots;
-        const currentSlot = activitySlots.filter((slot) => {
+        const currentSlot = activitySlots.filter((slot: any) => {
             return (
                 (
                     slot.wrap === false && 
