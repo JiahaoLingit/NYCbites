@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { Firestore } from "firebase-admin/firestore";
 import { ActivitySlot } from "../../global_types";
-import { getNormalizedTimeFromFormattedTime } from "../utils/activitiesUtils";
+import { getNormalizedTimeFromFormattedTime } from "../../common_utils";
 
 const express = require('express');
 const router  = express.Router();
