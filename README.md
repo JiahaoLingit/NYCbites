@@ -1,17 +1,25 @@
-## Running our App
+NYC Bites 🍽️
+A restaurant discovery web app for New York City. Enter your neighborhood, set your preferences, and find your next meal — fast.
+Features
 
-First, you will need to acquire the project itself, which can be done by running the following command in your terminal.
+Location-based search — Enter any NYC neighborhood or address to find nearby restaurants
+Smart filters — Filter by cuisine type, dining style, budget, distance, rating, and opening hours
+Live map — Browse results on an interactive Google Map with restaurant markers
+Real reviews — See ratings and review counts sourced from Google Places
+18+ cuisine types — Italian, Japanese, Mexican, Chinese, Korean, Halal, and more
+User accounts — Sign up with email or Google to save your preferences
 
-```bash
-git clone https://github.com/mennasalman/outnaboutnyc.git
-```
+Tech Stack
 
-Then, you will need to acquire the files .env and outandaboutnyc-firebase-adminsdk.json and put them in the project root. These files can be found in our Discord under the #resources channel. Alternatively, they can be found at the following links: [https://files.catbox.moe/f5rosv.env](https://files.catbox.moe/f5rosv.env) and [https://files.catbox.moe/op2l9j.json](https://files.catbox.moe/op2l9j.json), though you will need to rename these files to .env and outandaboutnyc-firebase-adminsdk.json, respectively. Afterwards, run the following commands in your terminal:
+Frontend: Next.js 15, React 19, TypeScript, Chakra UI
+Backend: Node.js, Express.js
+Database: Firebase Firestore
+Auth: Firebase Authentication
+APIs: Google Places API, Google Maps API, Google Geocoding API
 
-```
-npm i 
-npm run dev
-```
+Project Info
 
-The frontend runs at [http://localhost:3000](http://localhost:3000) and the backend runs at [http://localhost:3001](http://localhost:3001).
-# NYCbites
+Institution: Hunter College
+Course: CSCI 39548 — Practical Web Development
+Group: Group 4
+Members: Jiahao Lin, Angel Christian, Moises Teutle
