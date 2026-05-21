@@ -1,0 +1,33 @@
+name: Build and Push Working Docker Image
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Recreate the Environment File
+        run: echo "${{ secrets.ENV_FILE_CONTENTS }}" > .env
+
+      - name: Recreate the Service Account JSON File
+        run: echo '${{ secrets.SERVICE_ACCOUNT_JSON }}' > serviceAccountKey.json
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and Push to Docker Hub
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          # UPDATED: Matches your exact Docker Hub username and repository name
+          tags: angel617c/nyc-bites:latest
