@@ -32,7 +32,6 @@ function SigninModalContent({ dialog }: { dialog: UseDialogReturn }) {
             setError('Invalid email or password.');
         } finally { setLoading(false); }
     }
-
     async function handleGoogleSignIn() {
         setError(''); setLoading(true);
         try {

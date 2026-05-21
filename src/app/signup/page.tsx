@@ -8,13 +8,13 @@ import {
 import { Field } from "@chakra-ui/react";
 import { PasswordInput } from "@/components/ui/password-input";
 import { useState } from "react";
-import { GoogleAuthProvider, signInWithCustomToken, signInWithPopup } from 'firebase/auth';
+import { GoogleAuthProvider, createUserWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import { firebaseApp, firebaseAuth } from '../firebase';
 import { useAuthDispatch } from '../_components/auth_provider';
 import { doc, getFirestore, setDoc } from "firebase/firestore";
 import Link from 'next/link';
 
-const api = axios.create({ baseURL: 'http://localhost:3001/signin' });
+const api = axios.create({ baseURL: `${process.env.NEXT_PUBLIC_API_URL}/signin` });
 
 export default function SignUp() {
     const router   = useRouter();
@@ -49,16 +49,13 @@ export default function SignUp() {
     async function handleEmailSignup() {
         setError(''); setLoading(true);
         try {
-            const res = await api.post('/api/signup-email', { data: { email, username, password } });
-            if (res.status === 200) {
-                await signInWithCustomToken(firebaseAuth, res.data.token);
-                dispatch?.({ type: 'sign_in' });
-                const db = getFirestore(firebaseApp);
-                await setDoc(doc(db, 'users', firebaseAuth.currentUser!.uid), { profile_verified: true }, { merge: true });
-                router.push('/prefer');
-            }
+            await createUserWithEmailAndPassword(firebaseAuth, email, password);
+            dispatch?.({ type: 'sign_in' });
+            const db = getFirestore(firebaseApp);
+            await setDoc(doc(db, 'users', firebaseAuth.currentUser!.uid), { profile_verified: true }, { merge: true });
+            router.push('/prefer');
         } catch (err: any) {
-            setError(err.response?.data ?? 'Something went wrong. Please try again.');
+            setError(err.message ?? 'Something went wrong. Please try again.');
         } finally { setLoading(false); }
     }
 
@@ -69,7 +66,7 @@ export default function SignUp() {
                 bg="white" borderRadius="2xl" boxShadow="lg"
                 border="0.5px solid" borderColor="gray.100" overflow="hidden">
 
-                {/* Header */}
+                {}
                 <Box bg="linear-gradient(135deg, #c05621, #ea580c)" px={8} py={7} textAlign="center">
                     <Text fontSize="28px" mb={1}>🍽️</Text>
                     <Text fontSize="xl" fontWeight="700" color="white">Create your account</Text>
