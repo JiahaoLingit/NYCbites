@@ -68,14 +68,17 @@ export default function Navbar() {
                     fontWeight: 600, 
                     color: 'white',
                     textDecoration: 'none', 
-                    padding: '7px 16px',
+                    padding: '0 16px',
                     borderRadius: '8px',
                     background: 'linear-gradient(135deg, #c2410c, #ea580c)',
                     fontFamily: 'system-ui',
                     boxShadow: '0 2px 8px rgba(234,88,12,0.3)',
                     display: 'inline-flex',
                     alignItems: 'center',
+                    justifyContent: 'center',
                     height: '32px',
+                    minWidth: '80px',
+                    lineHeight: '1',
                     boxSizing: 'border-box'
                 }}>
                     Find Restaurants
