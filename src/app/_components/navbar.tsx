@@ -64,12 +64,19 @@ export default function Navbar() {
                 )}
 
                 <Link href="/prefer" style={{
-                    fontSize: '13px', fontWeight: 600, color: 'white',
-                    textDecoration: 'none', padding: '7px 16px',
+                    fontSize: '13px', 
+                    fontWeight: 600, 
+                    color: 'white',
+                    textDecoration: 'none', 
+                    padding: '7px 16px',
                     borderRadius: '8px',
                     background: 'linear-gradient(135deg, #c2410c, #ea580c)',
                     fontFamily: 'system-ui',
                     boxShadow: '0 2px 8px rgba(234,88,12,0.3)',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    height: '32px',
+                    boxSizing: 'border-box'
                 }}>
                     Find Restaurants
                 </Link>
