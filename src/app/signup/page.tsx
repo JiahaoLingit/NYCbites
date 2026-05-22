@@ -131,6 +131,13 @@ export default function SignUp() {
                                 Sign in
                             </Link>
                         </Text>
+                        <Text fontSize="sm" color="gray.500" textAlign="center">
+                            Or you can try it out for free{' '}
+                            <Link href="/prefer" style={{ color: '#ea580c', fontWeight: 600 }}>
+                                    Here
+                            </Link>
+                                        
+                        </Text>
                     </VStack>
                 </Box>
             </Box>
