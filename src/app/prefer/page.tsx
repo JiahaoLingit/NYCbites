@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 
 const CUISINES = [
@@ -83,6 +83,27 @@ export default function PreferencesPage() {
   const [address,           setAddress]           = useState("");
   const [addressError,      setAddressError]      = useState("");
   const [loading,           setLoading]           = useState(false);
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
+
+  useEffect(() => {
+    if (!inputRef.current || !window.google) return;
+
+    autocompleteRef.current = new window.google.maps.places.Autocomplete(
+      inputRef.current,
+      {
+        types: ["geocode"],
+        componentRestrictions: { country: "us" },
+      }
+    );
+
+    autocompleteRef.current.addListener("place_changed", () => {
+      const place = autocompleteRef.current?.getPlace();
+      if (!place?.formatted_address) return;
+
+      setAddress(place.formatted_address);
+    });
+  }, []);
 
   const toggle = (arr: string[], val: string) =>
     arr.includes(val) ? arr.filter(x => x !== val) : [...arr, val];
@@ -182,10 +203,12 @@ export default function PreferencesPage() {
           <div style={{ position: "relative" }}>
             <div style={{ position: "absolute", left: "16px", top: "50%", transform: "translateY(-50%)", fontSize: "18px", pointerEvents: "none" }}>📍</div>
             <input
+              ref={inputRef}
               value={address}
               onChange={e => { setAddress(e.target.value); setAddressError(""); }}
               onKeyDown={e => e.key === "Enter" && handleSubmit()}
               placeholder="Neighborhood or address (e.g. Williamsburg, Brooklyn)"
+              autoComplete="off"
               style={{
                 width: "100%", padding: "16px 16px 16px 48px",
                 background: "rgba(255,255,255,0.06)",
