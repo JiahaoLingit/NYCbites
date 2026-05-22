@@ -42,9 +42,19 @@ export default function Navbar() {
 
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <Link href="/about-us" style={{
-                    fontSize: '13px', color: 'rgba(255,248,240,0.45)',
-                    textDecoration: 'none', padding: '6px 12px',
+                    fontSize: '13px', 
+                    color: 'rgba(255,248,240,0.6)', 
+                    textDecoration: 'none', 
+                    padding: '0 14px',
+                    borderRadius: '999px',
+                    background: 'rgba(255,255,255,0.06)',
+                    border: '1px solid rgba(255,255,255,0.1)',
                     fontFamily: 'system-ui',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    height: '32px',
+                    boxSizing: 'border-box'
                 }}>
                     About
                 </Link>
