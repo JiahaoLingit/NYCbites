@@ -31,6 +31,26 @@ export default function AboutUs() {
                         discover great dining options without the noise. Enter your neighborhood,
                         set your preferences, and find your next perfect meal — fast.
                     </p>
+                    
+                    <div style={{ fontFamily: "system-ui", maxWidth: "560px" }}>
+                        <h3 style={{ fontSize: "16px", fontWeight: 600, color: "#fff8f0", margin: "0 0 16px" }}>
+                            Key Features
+                        </h3>
+                        <div style={{ display: "flex", flexDirection: "column", gap: "14px", fontSize: "15px", lineHeight: 1.6, color: "rgba(255,248,240,0.7)" }}>
+                            <div style={{ display: "flex", gap: "8px", alignItems: "flex-start" }}>
+                                <span style={{ color: "#ea580c", flexShrink: 0 }}>-</span>
+                                <span><strong>Smart Filtering:</strong> Users can explore NYC’s diverse food landscape by filtering restaurants based on what they are craving.</span>
+                            </div>
+                            <div style={{ display: "flex", gap: "8px", alignItems: "flex-start" }}>
+                                <span style={{ color: "#ea580c", flexShrink: 0 }}>-</span>
+                                <span><strong>Interactive Mapping:</strong> Our platform integrates interactive maps so users can visually browse restaurants, see what’s nearby, and map out their culinary routes across the city.</span>
+                            </div>
+                            <div style={{ display: "flex", gap: "8px", alignItems: "flex-start" }}>
+                                <span style={{ color: "#ea580c", flexShrink: 0 }}>-</span>
+                                <span><strong>Tailored Recommendations:</strong> Once filters are applied, the platform instantly generates a tailored list of top-tier restaurant recommendations that match the user's criteria.</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)", marginBottom: "48px" }} />
