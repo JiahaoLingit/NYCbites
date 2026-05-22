@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { firebaseAuth } from '@/app/firebase';
 import { useAuth, useAuthDispatch } from '@/app/_components/auth_provider';
 import SigninModal from '@/app/_components/signin_modal';
+import { Button } from "@chakra-ui/react"
 
 export default function Navbar() {
     const router          = useRouter();
@@ -73,26 +74,24 @@ export default function Navbar() {
                     <SigninModal />
                 )}
 
-                <Link href="/prefer" style={{
-                    fontSize: '13px', 
-                    fontWeight: 600, 
-                    color: 'white',
-                    textDecoration: 'none', 
-                    padding: '0 16px',
-                    borderRadius: '8px',
-                    background: 'linear-gradient(135deg, #c2410c, #ea580c)',
-                    fontFamily: 'system-ui',
-                    boxShadow: '0 2px 8px rgba(234,88,12,0.3)',
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    height: '32px',
-                    minWidth: '80px',
-                    lineHeight: '1',
-                    boxSizing: 'border-box'
-                }}>
-                    Find Restaurants
-                </Link>
+                <Button
+                    asChild
+                    size="sm"
+                    fontWeight={600}
+                    color="white"
+                    borderRadius="8px"
+                    padding="7px 16px"
+                    fontSize="13px"
+                    fontFamily="system-ui"
+                    bg="linear-gradient(135deg, #c2410c, #ea580c)"
+                    boxShadow="0 2px 8px rgba(234,88,12,0.3)"
+                    _hover={{ 
+                        bg: "linear-gradient(135deg, #ea580c, #f97316)", 
+                        boxShadow: "0 4px 12px rgba(234,88,12,0.5)" 
+                    }}
+                >
+                    <Link href="/prefer">Find Restaurants</Link>
+                </Button>
             </div>
         </nav>
     );
