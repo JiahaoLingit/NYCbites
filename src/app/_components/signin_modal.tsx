@@ -96,7 +96,23 @@ export default function SigninModal() {
     return (
         <Dialog.RootProvider value={dialog} placement="center" motionPreset="slide-in-bottom">
             <Dialog.Trigger asChild>
-                <Button variant="outline" size="sm">Sign In</Button>
+                <Button 
+                    size="sm" 
+                    fontWeight={600}
+                    color="white"
+                    borderRadius="8px"
+                    padding="7px 16px"
+                    fontSize="13px"
+                    fontFamily="system-ui"
+                    bg="linear-gradient(135deg, #c2410c, #ea580c)"
+                    boxShadow="0 2px 8px rgba(234,88,12,0.3)"
+                    _hover={{ 
+                        bg: "linear-gradient(135deg, #ea580c, #f97316)", 
+                        boxShadow: "0 4px 12px rgba(234,88,12,0.5)" 
+                    }}
+                >
+                    Sign In
+                </Button>
             </Dialog.Trigger>
             <Portal>
                 <Dialog.Backdrop />
