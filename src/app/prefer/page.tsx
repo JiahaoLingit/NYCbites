@@ -229,6 +229,21 @@ export default function PreferencesPage() {
           <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
             {CUISINES.map(c => (
               <button key={c.value} onClick={() => setSelectedCuisines(toggle(selectedCuisines, c.value))}
+                onMouseEnter={(e) => {
+                    if (!selectedCuisines.includes(c.value)) {
+                      e.currentTarget.style.background = "rgba(255,255,255,0.08)";
+                      e.currentTarget.style.borderColor = "rgba(255,255,255,0.22)";
+                    }
+                  } 
+                }
+                onMouseLeave={(e) => {
+                  if (!selectedCuisines.includes(c.value)) {
+                    e.currentTarget.style.background = "rgba(255,255,255,0.04)";
+                    e.currentTarget.style.borderColor = "rgba(255,255,255,0.12)";
+                  }
+                }
+
+                }
                 style={{
                   padding: "8px 16px", borderRadius: "999px",
                   border: `1.5px solid ${selectedCuisines.includes(c.value) ? "#fb923c" : "rgba(255,255,255,0.12)"}`,
